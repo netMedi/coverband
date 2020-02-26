@@ -85,6 +85,8 @@ module Coverband
       @redis_namespace = nil
       @redis_ttl = 2_592_000 # in seconds. Default is 30 days.
       @reporting_wiggle = nil
+
+      @redis_url = nil
     end
 
     def logger
@@ -225,10 +227,14 @@ module Coverband
       Gem::Version.new(RUBY_VERSION) >= Gem::Version.new('2.6.0')
     end
 
+    def redis_url=(url)
+      @redis_url = url
+    end
+
     private
 
     def redis_url
-      ENV['COVERBAND_REDIS_URL'] || ENV['REDIS_URL']
+      @redis_url || ENV['COVERBAND_REDIS_URL'] || ENV['REDIS_URL']
     end
 
     def redis_store_options
